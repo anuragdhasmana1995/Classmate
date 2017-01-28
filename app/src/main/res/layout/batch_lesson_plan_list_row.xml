@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+   <LinearLayout
+       android:background="#eeeeee"
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <LinearLayout
+           android:background="#eeeeee"
+           android:layout_height="wrap_content"
+           android:layout_width="match_parent"
+           android:orientation="horizontal">
+
+           <TextView
+               android:textColor="@android:color/black"
+               android:id="@+id/batch_lesson_plan_lecture"
+               android:layout_width="60dp"
+               android:layout_height="60dp"
+               android:gravity="center_horizontal|center"
+               android:text="1"
+               android:textSize="15sp" />
+
+           <TextView
+               android:textColor="@android:color/black"
+               android:id="@+id/batch_lesson_plan_lect_name"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="65dp"
+               android:layout_gravity="center_horizontal"
+               android:layout_marginLeft="10sp"
+               android:layout_marginRight="10dp"
+               android:padding="5dp"
+               android:text="Light"
+               android:textSize="15sp" />
+
+
+       </LinearLayout>
+
+       <TextView
+           android:id="@+id/batch_lesson_plan_details"
+           android:layout_gravity="right"
+           android:textSize="15sp"
+           android:text="DETAILS"
+           android:textStyle="bold"
+           android:textColor="@color/colorPrimary"
+           android:layout_margin="10dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+
+
+   </LinearLayout>
+
+
+</LinearLayout>
