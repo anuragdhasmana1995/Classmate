@@ -133,10 +133,14 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     public MainFragment(PagerAdapter.FirstPageListener listener) {
+        // if student activity calls this fragment
+        // set the api url accordingly
         changeListener = listener;
     }
 
     public MainFragment(BatchPagerAdapter.FirstPageListener listener) {
+
+        // if called by the batch activity
         changeListener = listener;
         setUpVariables();
         Model.setBatchUrl();
@@ -199,6 +203,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     private void initSetUp() {
+
         map.clear();
         setUpList.clear();
         monthCalendar.clear();
@@ -207,8 +212,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         position = 0;
         Calendar calendar = Calendar.getInstance();
         LoadData(calendar.getTimeInMillis());
-
-
         calledByOnCreate = true;
     }
 
@@ -249,11 +252,16 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private void setUpVariables() {
 
+        // set up variables for the api
+
         Calendar calendar = Calendar.getInstance();
         int month = (calendar.get(Calendar.MONTH) + 1);
         int dd = (calendar.get(Calendar.DATE));
         int yer = (calendar.get(Calendar.YEAR));
         max = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        // indicating that we are fetching the data for a particular month in a year
+        // so that we can check later whether we have information for that month or not
 
         Pair<Integer, Integer> pair = new Pair<>(month, yer);
         yearMap.put(pair, true);
@@ -266,6 +274,14 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     private void setupData() {
+
+        // format data coming from the api
+        // dates do not come sequentially from the api
+        // so make a list having all the events of a particular day
+        // this is done using a hash map
+        // we will give this list  to adapter of the recycler view
+
+
         List<Timetable.Results> results = list.getResults();
         List<Events> eventsList;
         Events events;
@@ -295,6 +311,9 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     private void populate() {
+
+        // if the recycler view is being populated for the first time
+
         if (calledByOnCreate) {
             Log.d("Test", "called by on create");
             customAdapter = new CustomAdapter(getActivity(), monthCalendar, setUpList);
@@ -302,7 +321,9 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             recyclerView.setAdapter(customAdapter);
             Log.d("Test pos", +position + "");
             manager.scrollToPositionWithOffset(position, 0);
-        } else {
+        }
+        // if we are adding months to the list after
+        else {
             Log.d("Test", "not called by on create");
             customAdapter.update(setUpList);
             //customAdapter.notify();
@@ -341,10 +362,17 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 try {
-                    //apply check
+                    //apply check to see if scroll listener is allowed to perform its action
+                    // this is done so that this method and custom sync does not fire up at the
+                    // same time
                     if (control)
                         notifydatechanged();
 
+
+
+
+                    // to check if we reached the bottom end of the recycler view
+                    // add data for next month
                     int visibleItemCount = manager.getChildCount();
                     int totalItemCount = manager.getItemCount();
                     int pastVisibleItems = manager.findFirstVisibleItemPosition();
@@ -353,6 +381,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                         addToMonth(-1, totalItemCount);
 
                     }
+                    // to check if we reached at the top of the recycler view
+                    // add data for previous month
                     if (MainFragment.this.getUserVisibleHint())
                         if (manager.findFirstCompletelyVisibleItemPosition() == 0) {
                             Log.d("Test scroll", "top");
@@ -375,7 +405,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     private void addToMonth(int direction, int curr) {
-        //   Log.d("Test","adding");
+        // direction = diction of scrolling
+        // curr = the curr index of the adapter
         SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         Calendar cal = Calendar.getInstance();
         CustomInfo info = new CustomInfo();
@@ -386,7 +417,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         int year = Integer.valueOf(parts[2]);
 
         {
-
+            // if scrolling down and the month is december
+            // current year will change
             if (direction == -1) {
                 if (month == 12) {
                     cal.set(Calendar.MONTH, 0);
@@ -399,6 +431,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 cal.set(Calendar.DAY_OF_MONTH, 1);
                 int mm = cal.get(Calendar.MONTH);
                 int yr = cal.get(Calendar.YEAR);
+
+                // add data for a month only if it is not already present
 
                 if (!map.containsKey("15-" + (mm + 1) + "-" + yr)) {
                     max = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -425,7 +459,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             } else {
 
                 Log.d("Test scroll", " called");
-
+                // if scrolled up and the month is november then
+                // current year will change
                 if (month == 1) {
                     cal.set(Calendar.MONTH, 11);
                     cal.set(Calendar.YEAR, year - 1);
@@ -436,7 +471,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 int mm = cal.get(Calendar.MONTH);
                 int yr = cal.get(Calendar.YEAR);
 
-
+                // add only if not already present
                 if (!map.containsKey("15-" + (mm + 1) + "-" + yr)) {
                     max = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
                     cal.set(Calendar.DAY_OF_MONTH, max);
@@ -472,6 +507,9 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     public List<CustomInfo> LoadData(long time) {
+
+        // creating a initial list of current month
+        // and of a month before and after of the current month
         monthCalendar = new ArrayList<CustomInfo>();
         SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         String currDate = format1.format(time);
@@ -584,9 +622,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private void notifydatechanged() throws ParseException {
 
-        // Log.d("Test","notifyting changes");
-
-        //apply check
+        // to synchronise the recycler view visible item with the dat of the month view(calendar)
         int position = manager.findFirstVisibleItemPosition();
         if (position < 0) {
             return;
@@ -597,6 +633,10 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         int month = Integer.valueOf(parts[1]);
         int year = Integer.valueOf(parts[2]);
         Pair<Integer, Integer> pair = new Pair<>(month, year);
+        // check if we have data for that particular month or nor
+        // if not proceed and fetch it
+        // otherwise there is no need
+        // we already have that months data
         if (!yearMap.containsKey(pair) && map.containsKey(date) && MainFragment.this.getUserVisibleHint()) {
             Log.d("Test year", "called here");
             populateSetupList(date);
@@ -610,28 +650,53 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     private void populateSetupList(String date) {
+
+        // for adding data if notifydatechange method sees that for this date
+        // there is no available data
         Log.d("Test", "populating set up list");
         calledByOnCreate = false;
         String parts[] = date.split("-");
         int month = Integer.valueOf(parts[1]);
         int year = Integer.valueOf(parts[2]);
+        // to indicate we are fetching the data of a particular month
+        // so that we will not fetch the same later
         Pair<Integer, Integer> pair = new Pair<>(month, year);
         yearMap.put(pair, true);
+
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.MONTH, month - 1);
         cal.set(Calendar.YEAR, year);
-        int max = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        cal.set(Calendar.DAY_OF_MONTH,1);
+
+
+        int month1 = (cal.get(Calendar.MONTH) + 1);
+        int dd = (cal.get(Calendar.DATE));
+        int yer = (cal.get(Calendar.YEAR));
+
+        max = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+//        Log.d("Test date ",date+" " +max+" "+month+"  "+year);
+//        Log.d("Test date",month1+" "+dd+" "+yer);
+        // from this date
         Model.setStart_date(year + "-" + month + "-" + 1);
+        // to this date
         Model.setEnd_date(year + "-" + month + "-" + max);
+        //set this parameters in the url
         Model.setBatchUrl();
         Url = Model.getBatchUrl();
+
+        Log.d("Test Url",Url);
+
+        // get data from the api
         fetchData();
 
 
     }
 
     private void customsync(long date) {
-
+        // to synchronise the scrolling
+        // first let custom sync handle the addition of new data rather than scrolling
+        // date = time in milliseconds of the day highlighted in the calendar
+        // revoke control from on scroll listener of the recycler view
         control = false;
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         String formatted = sdf.format(date);
@@ -641,14 +706,17 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         String year = parts[2];
 
         if (month != (currMonth) && year != (currYear)) {
-
+            // if there is no entry yet for the date then we need to add it to the list
             if (!map.containsKey(formatted))
-
+                // if current year is less than year add data to the bottom of the list
                 if (Integer.valueOf(year) > Integer.valueOf(currYear)) {
                     addToMonth(-1, manager.getItemCount());
+                    // if current year is more than year then add data to the top the list
                 } else if (Integer.valueOf(year) < Integer.valueOf(currYear)) {
                     addToMonth(1, 1);
                 } else {
+                    // if year is equal to the current year but current month is greater than month
+                    // add data to the top of the list
                     if (Integer.valueOf(month) < Integer.valueOf(currMonth)) {
                         addToMonth(1, 1);
                     } else {
@@ -657,7 +725,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 }
 
         }
-
+        // if that days data already has an entry then simply scroll to that position
         if (map.containsKey(sdf.format(date))) {
             for (int i = 0; i < monthCalendar.size(); i++) {
                 CustomInfo info = monthCalendar.get(i);
@@ -668,6 +736,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             }
 
         }
+        // give control to the recycler view scroll listener to preform ita action
         control = true;
 
 
@@ -873,8 +942,9 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onClick(View view, Events events, String date) {
         //Log.d("Test", " event clicked");
+
         SimpleDateFormat originalFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        SimpleDateFormat targetFormat = new SimpleDateFormat("dd MMMM, yyyy",Locale.ENGLISH);
+        SimpleDateFormat targetFormat = new SimpleDateFormat("dd MMMM, yyyy", Locale.ENGLISH);
         Date date1 = null;
         try {
             date1 = originalFormat.parse(date);
@@ -918,7 +988,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             eventEnd = (TextView) layout.findViewById(R.id.detail_event_end);
             eventProduct = (TextView) layout.findViewById(R.id.detail_event_product);
             eventInstructor = (TextView) layout.findViewById(R.id.detail_event_instructor);
-            eventSubject = (TextView)layout.findViewById(R.id.detail_event_subject);
+            eventSubject = (TextView) layout.findViewById(R.id.detail_event_subject);
             changeStatusBarColor(Color.parseColor(events.getColor()));
             frameLayout.setBackgroundColor(Color.parseColor(events.getColor()));
             eventName.setText(events.getEvent_name());
@@ -1119,6 +1189,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     // handle back button's click listener
+                    // sometimes this method fires up two times
+                    // therefore a counter is set to ensure only one condition satisfies
                     counter++;
                     if (counter == 1) {
                         Log.d("Test resume", "resume called called 11");
@@ -1127,11 +1199,12 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                                 pw.dismiss();
                                 changeStatusBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimaryDark, null));
                             } else moveToFragment(R.id.action_three_day_view);
-                        else
-                        {
+                        else {
                             moveToFragment(R.id.action_three_day_view);
                         }
-                    } else if (counter == 2) {
+                    }
+                    // do nohinf if the method fires up simultaneously second time
+                    else if (counter == 2) {
                         counter = 0;
                     }
 

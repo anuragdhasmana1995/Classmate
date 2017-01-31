@@ -34,7 +34,7 @@ public class BatchMarksFragment extends Fragment {
         Log.d("views","onActivityCreated");
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(BatchActivity.title);
         mToolbarToggle = (CheckedTextView) (getActivity()).findViewById(R.id.toolbar_toggle);
-        mToolbarToggle.setVisibility(View.INVISIBLE);
+        mToolbarToggle.setVisibility(View.GONE);
 
     }
 

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Classmate.iml" filepath="$PROJECT_DIR$/Classmate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Classmate - Copy.iml" filepath="$PROJECT_DIR$/Classmate - Copy.iml" />
       <module fileurl="file://$PROJECT_DIR$/MPChartLib/MPChartLib.iml" filepath="$PROJECT_DIR$/MPChartLib/MPChartLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WeekViewSwipeable/WeekViewSwipeable.iml" filepath="$PROJECT_DIR$/WeekViewSwipeable/WeekViewSwipeable.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>

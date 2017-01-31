@@ -21,6 +21,7 @@ public class BatchLessonPlanCustomListAdapter extends BaseAdapter {
     private List<String> lecture_name;
     private LayoutInflater mInflater;
     private onClickList listener;
+
     BatchLessonPlanCustomListAdapter(Context context, List<Integer> lecture, List<String> lecture_name, BatchLessonPlanFragment batchLessonPlanFragment) {
 
         this.lecture = lecture;
@@ -49,7 +50,7 @@ public class BatchLessonPlanCustomListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.lecture = (TextView) convertView.findViewById(R.id.batch_lesson_plan_lecture);
             holder.lecture_name = (TextView) convertView.findViewById(R.id.batch_lesson_plan_lect_name);
-            holder.details = (TextView) convertView.findViewById(R.id.batch_lesson_plan_details);
+           // holder.details = (TextView) convertView.findViewById(R.id.batch_lesson_plan_details);
 
             convertView.setTag(holder);
         } else {
@@ -58,12 +59,7 @@ public class BatchLessonPlanCustomListAdapter extends BaseAdapter {
 
         holder.lecture.setText(String.valueOf(this.lecture.get(position)));
         holder.lecture_name.setText(this.lecture_name.get(position));
-        holder.details.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onClick(view,lecture_name.get(position));
-            }
-        });
+
 
 
         return convertView;
@@ -77,8 +73,10 @@ public class BatchLessonPlanCustomListAdapter extends BaseAdapter {
         TextView lecture_name;
         TextView details;
     }
-    public interface onClickList{
+
+    public interface onClickList {
         void onClick(View view, String s);
+        // display pop up screen
     }
 
 }

@@ -56,7 +56,7 @@ public class BatchSummaryFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(BatchActivity.title);
         mToolbarToggle = (CheckedTextView) getActivity().findViewById(R.id.toolbar_toggle);
-        mToolbarToggle.setVisibility(View.INVISIBLE);
+        mToolbarToggle.setVisibility(View.GONE);
     }
 
 
@@ -117,11 +117,12 @@ public class BatchSummaryFragment extends Fragment {
         l.setCustom(xEntries);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+
         l.setDrawInside(false);
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
-        l.setYOffset(0f);
+        l.setYOffset(5f);
 
 
     }
@@ -159,6 +160,7 @@ public class BatchSummaryFragment extends Fragment {
         data.setValueTextSize(12f);
         data.setValueTextColor(Color.BLACK);
         pieChart.setData(data);
+
 
         // undo all highlights
         pieChart.highlightValues(null);

@@ -1,6 +1,7 @@
 package com.htlconline.sm.classmate.Batch.Adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
@@ -35,6 +36,9 @@ public class BatchLessonPlanAdapter extends RecyclerView.Adapter<BatchLessonPlan
     private RecyclerView recyclerView;
 
 
+
+
+
     public BatchLessonPlanAdapter(FragmentActivity activity, List<BatchLessonPlanData> batchLessonPlanDatas, RecyclerView recyclerView, BatchLessonPlanFragment context) {
         this.data = batchLessonPlanDatas;
         this.recyclerView = recyclerView;
@@ -58,18 +62,42 @@ public class BatchLessonPlanAdapter extends RecyclerView.Adapter<BatchLessonPlan
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mExpandedPosition = isExpanded ? -1 : holder.getAdapterPosition();
-                TransitionManager.beginDelayedTransition(recyclerView);
-                notifyDataSetChanged();
+                beginTransition(holder,isExpanded);
             }
+        });
+        holder.Toggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              beginTransition(holder,isExpanded);
+            }
+
+
         });
         BatchLessonPlanData result = data.get(position);
         holder.ChapterName.setText(result.getChapterName());
         holder.ChapterNo.setText(String.valueOf(result.getChapterNo()));
-        holder.listView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, result.getLectureNo().size() * 325));
+        holder.listView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, result.getLectureNo().size() * 440));
         holder.listView.setDividerHeight(10);
         holder.listView.setAdapter(new BatchLessonPlanCustomListAdapter(inflater.getContext(), result.getLectureNo(),
                 result.getLectureTopic(),context));
+
+
+
+
+    }
+
+    private void beginTransition(LessonViewHolder holder, boolean isExpanded) {
+
+        mExpandedPosition = isExpanded ? -1 : holder.getAdapterPosition();
+        TransitionManager.beginDelayedTransition(recyclerView);
+        notifyDataSetChanged();
+        String uri = isExpanded? "@drawable/ic_expand_more_black_24dp" : "@drawable/ic_expand_less_black_24dp";
+        int imageResource = context.getResources().getIdentifier(uri, null, context.getActivity().getPackageName());
+        if(imageResource>0)
+        {
+            Drawable res = context.getResources().getDrawable(imageResource);
+            holder.Toggle.setBackground(res);
+        }
 
 
     }
@@ -96,12 +124,8 @@ public class BatchLessonPlanAdapter extends RecyclerView.Adapter<BatchLessonPlan
             ChapterNo = (TextView) itemView.findViewById(R.id.batch_lesson_plan_chapter);
             ChapterName = (TextView) itemView.findViewById(R.id.batch_lesson_plan_chap_name);
             listView = (ListView) itemView.findViewById(R.id.batch_lesson_plan_list);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+            Toggle = (Button) itemView.findViewById(R.id.batch_lesson_plan_toggle);
 
-                }
-            });
         }
     }
 }

@@ -54,7 +54,7 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
     private BatchListingAdapter listAdapter;
     private LinearLayoutManager manager;
     private Context context;
-    private static List<BatchListData.Results> results;
+    private static List<BatchListData.Results> results = new ArrayList<>();
     private static List<BatchListData.Results> combined = new ArrayList<>();
     private SearchView searchView;
     private EditText searchPlate;
@@ -72,7 +72,10 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Log.d("Test", "on create");
+        Log.d("Test", "on create of list");
+        results.clear();
+        combined.clear();
+
 
     }
 
@@ -81,6 +84,7 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        Log.d("Test","on create view of list");
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_batch_list, container, false);
 
@@ -166,7 +170,7 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
     public void onResume() {
 
         super.onResume();
-        Log.d("Test", "on Resume");
+        Log.d("Test", "on Resume list");
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -210,8 +214,10 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
 
             case R.id.action_filter:
                 FragmentManager manager = getActivity().getSupportFragmentManager();
+                Fragment fragment = new BatchFilterFragment();
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.main_batch_layout, new BatchFilterFragment(), "batch_filter_fragment");
+                transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
+                transaction.replace(R.id.main_batch_layout,fragment,"batch_filter_fragment");
                 transaction.addToBackStack(null);
                 transaction.commit();
                 return true;
@@ -223,7 +229,7 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("Test", "onViewCreated");
+        Log.d("Test", "onViewCreated of list");
         setHasOptionsMenu(true);
         progress = (ProgressBar) view.findViewById(R.id.progress_bar);
         fetchData();
@@ -284,7 +290,7 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
     private void paginationRequest(int pageCount) {
 
         progress.setVisibility(View.VISIBLE);
-
+        Log.d("Test","pagination request");
         String url = "http://www.htlconline.com/api/batch_listing/?page=" + pageCount;
 
         Log.d("Test url", url);
@@ -339,6 +345,7 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
     }
 
     private void request(int pageCount) {
+        Log.d("Test","request called");
         progress.setVisibility(View.VISIBLE);
         String url = "http://www.htlconline.com/api/batch_listing/?page=" + pageCount;
         Log.d("Test url", url);
@@ -376,6 +383,7 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //Log.i("Student","Student7");
+
                         error.printStackTrace();
                     }
                 });

@@ -160,7 +160,7 @@ public class BaseFragment extends Fragment implements FragmentChangeListener,
         //Log.d("Title",Title.title);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(BatchActivity.title);
         CheckedTextView mToolbarToggle = (CheckedTextView) getActivity().findViewById(R.id.toolbar_toggle);
-        mToolbarToggle.setVisibility(View.INVISIBLE);
+        mToolbarToggle.setVisibility(View.GONE);
 
 
         inflater.inflate(R.menu.menu_base, menu);

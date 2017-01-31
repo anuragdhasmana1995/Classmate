@@ -1,1 +1,1 @@
-include ':app',':library' ,':MPChartLib'
+include ':app',':library' ,':MPChartLib' ,':WeekViewSwipeable'
