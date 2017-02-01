@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
@@ -78,6 +79,7 @@ public class BatchSummaryFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setHasOptionsMenu(true);
         batch_title = (TextView) view.findViewById(R.id.batch_title);
         batch_academic_year = (TextView) view.findViewById(R.id.batch_academic_year);
         summary_academic_year_value = (TextView) view.findViewById(R.id.summary_academic_year_value);
@@ -168,5 +170,16 @@ public class BatchSummaryFragment extends Fragment {
         pieChart.invalidate();
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

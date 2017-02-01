@@ -136,6 +136,9 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         // if student activity calls this fragment
         // set the api url accordingly
         changeListener = listener;
+        setUpVariables();
+        Model.setBatchUrl();
+        Url = Model.getBatchUrl();
     }
 
     public MainFragment(BatchPagerAdapter.FirstPageListener listener) {
@@ -513,6 +516,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         monthCalendar = new ArrayList<CustomInfo>();
         SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         String currDate = format1.format(time);
+        Log.d("Test date",currDate);
         Date date = new Date();
         try {
             date = format1.parse(currDate);
@@ -531,6 +535,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         int month = (calendar.get(Calendar.MONTH) + 1);
         int dd = (calendar.get(Calendar.DATE));
         int yer = (calendar.get(Calendar.YEAR));
+        Log.d("Test ",month+" "+dd+" "+yer);
 
 
         CustomInfo info1 = new CustomInfo();
@@ -538,6 +543,9 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         info1.setDate(format1.format(calendar.getTime()));
         monthCalendar.add(info1);
         map.put(format1.format(calendar.getTime()), pos++);
+        if (format1.format(calendar.getTime()).equals(currDate)) {
+            position = pos-1;
+        }
 
         for (int i = 1; i < max; i++) {
             calendar.set(Calendar.DAY_OF_MONTH, i + 1);
@@ -561,8 +569,12 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         dd = (calendar.get(Calendar.DATE));
         yer = (calendar.get(Calendar.YEAR));
 
+        Log.d("Test ",month+" "+dd+" "+yer);
+
         currMonth = "" + month;
         currYear = "" + yer;
+        Log.d("Test ",currDate+" "+currYear+" "+currMonth);
+
         Pair<Integer, Integer> pair = new Pair<>(month, yer);
         yearMap.put(pair, true);
 
@@ -578,11 +590,15 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         info.setDate(format1.format(cal.getTime()));
         monthCalendar.add(info);
         map.put(format1.format(cal.getTime()), pos++);
+        if (format1.format(calendar.getTime()).equals(currDate)) {
+            position = pos-1;
+        }
 
         for (int i = 1; i < max; i++) {
             cal.set(Calendar.DAY_OF_MONTH, i + 1);
             if (format1.format(cal.getTime()).equals(currDate)) {
                 position = pos;
+                Log.d("Test ",currDate+" "+""+format1.format(cal.getTime()));
             }
             info1 = new CustomInfo();
             info1.setEvent("");
@@ -598,11 +614,20 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         max = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
+        month = (calendar.get(Calendar.MONTH) + 1);
+        dd = (calendar.get(Calendar.DATE));
+        yer = (calendar.get(Calendar.YEAR));
+
+        Log.d("Test ",month+" "+dd+" "+yer);
+
         info1 = new CustomInfo();
         info1.setEvent("");
         info1.setDate(format1.format(calendar.getTime()));
         monthCalendar.add(info1);
         map.put(format1.format(calendar.getTime()), pos++);
+        if (format1.format(calendar.getTime()).equals(currDate)) {
+            position = pos-1;
+        }
 
         for (int i = 1; i < max; i++) {
             calendar.set(Calendar.DAY_OF_MONTH, i + 1);

@@ -52,10 +52,12 @@ public class BatchListData {
         private String centre;
         private String academic_year;
         private String display_name;
+        private String product;
+        private String instructor;
         private String subject;
         private String start_date;
         private Attendance get_attendance_percentage;
-
+        private String next_class;
         public String getCentre() {
             return centre;
         }
@@ -110,6 +112,32 @@ public class BatchListData {
 
         public void setSubject(String subject) {
             this.subject = subject;
+        }
+
+
+
+        public String getProduct() {
+            return product;
+        }
+
+        public void setProduct(String product) {
+            this.product = product;
+        }
+
+        public String getInstructor() {
+            return instructor;
+        }
+
+        public void setInstructor(String instructor) {
+            this.instructor = instructor;
+        }
+
+        public String getNext_class() {
+            return next_class;
+        }
+
+        public void setNext_class(String next_class) {
+            this.next_class = next_class;
         }
     }
 

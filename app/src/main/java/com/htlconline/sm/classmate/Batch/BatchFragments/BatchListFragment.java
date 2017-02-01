@@ -216,7 +216,7 @@ public class BatchListFragment extends Fragment implements BatchListingAdapter.O
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 Fragment fragment = new BatchFilterFragment();
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
+                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
                 transaction.replace(R.id.main_batch_layout,fragment,"batch_filter_fragment");
                 transaction.addToBackStack(null);
                 transaction.commit();
