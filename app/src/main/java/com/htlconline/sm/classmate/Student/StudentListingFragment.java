@@ -17,10 +17,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.htlconline.sm.classmate.AppController;
+import com.htlconline.sm.classmate.Batch.BatchActivity;
 import com.htlconline.sm.classmate.CustomRequests.CustomGetRequest;
 import com.htlconline.sm.classmate.Decorators.DividerItemDecoration;
 import com.htlconline.sm.classmate.R;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,24 +37,30 @@ public class StudentListingFragment extends Fragment {
     private StudentListingAdapter mAdapter;
     private List<StudentListingModel.Results> studentlist;
 
+
+    public StudentListingFragment() {
+        BatchActivity.swipeOn();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        studentlist=new ArrayList<StudentListingModel.Results>();
+        studentlist = new ArrayList<StudentListingModel.Results>();
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.student_listing,container,false);
+        return inflater.inflate(R.layout.student_listing, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.i("student", "Student1");
-        mRecyclerView=(RecyclerView)view.findViewById(R.id.student_listing_rv);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.student_listing_rv);
 
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
@@ -66,23 +75,23 @@ public class StudentListingFragment extends Fragment {
     private void request() {
         String url = "http://www.htlconline.com/api/student_listing/";
         //RequestQueue mRequestQueue = Volley.newRequestQueue(getActivity());
-        CustomGetRequest customGetRequest=new CustomGetRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+        CustomGetRequest customGetRequest = new CustomGetRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                    Log.i("Student",response.toString());
-                    Gson gson=new Gson();
-                    StudentListingModel slm=gson.fromJson(String.valueOf(response),StudentListingModel.class);
-                    studentlist= Arrays.asList(slm.getResults());
-                    mAdapter=new StudentListingAdapter(studentlist,getActivity());
-                    mRecyclerView.setAdapter(mAdapter);
+                Log.i("Student", response.toString());
+                Gson gson = new Gson();
+                StudentListingModel slm = gson.fromJson(String.valueOf(response), StudentListingModel.class);
+                studentlist = Arrays.asList(slm.getResults());
+                mAdapter = new StudentListingAdapter(studentlist, getActivity());
+                mRecyclerView.setAdapter(mAdapter);
             }
 
-            
+
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.i("Student","Student7");
+                        Log.i("Student", "Student7");
                         error.printStackTrace();
                     }
                 });

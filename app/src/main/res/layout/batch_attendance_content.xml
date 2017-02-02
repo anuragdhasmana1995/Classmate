@@ -1,81 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:gravity="center"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/batch_attendance_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="3dp"
-        android:stateListAnimator="@animator/comment_selection">
+  
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/batch_attendance_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:layout_margin="3dp"
+            card_view:cardCornerRadius="0dp"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
+                
                 <LinearLayout
                     android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="5dp">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
+                    
                     <TextView
-
-                        android:id="@+id/batch_attendance_student_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal|left"
+                        android:layout_weight="1"
                         android:padding="5dp"
-                        android:text="1"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/batch_attendance_student_id"
+                        android:text="Amit Saxena"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorPrimaryDark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_marginLeft="5dp"
-                        android:text="Light"
-                        android:textSize="15sp" />
+                        android:id="@+id/batch_attendance_name"/>
 
-
+                    <TextView
+                        android:layout_weight="1"
+                        android:textColor="@android:color/black"
+                        android:text="101ASV00155"
+                        android:textSize="15sp"
+                        android:paddingLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/batch_attendance_id"/>
+                    
+                    
+                    
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/batch_attendance_toggle"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_expand_more_black_24dp" />
+
+                <View
+                    android:background="@android:color/darker_gray"
+                    android:layout_gravity="right|center"
+                    android:layout_width="1dp"
+                    android:layout_margin="10dp"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/status"
+                    android:text="A"
+                    android:layout_marginRight="5dp"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:textSize="30sp"
+                    android:layout_gravity="right|center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+               
 
 
             </LinearLayout>
 
 
-            <com.yuncun.swipeableweekview.WeekViewSwipeable
-                android:id="@+id/batch_attendance_swipeable_week"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:circleDefaultFillColor="@color/grey_500"
-                app:circleDefaultStrokeColor="@color/grey_500"
-                app:circleDefaultTextColor="@color/grey_750" />
 
 
-        </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+            
+
+        </android.support.v7.widget.CardView>
+
+   
 
 </LinearLayout>

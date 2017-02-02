@@ -1,4 +1,4 @@
-package com.yuncun.swipeableweekview;
+package com.htlconline.sm.classmate.Batch;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,7 +11,10 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.htlconline.sm.classmate.R;
+
 public class CircleView extends View {
+
     private static int DEFAULT_TITLE_COLOR = Color.CYAN;
     private static int DEFAULT_SUBTITLE_COLOR = Color.WHITE;
 
@@ -23,6 +26,7 @@ public class CircleView extends View {
 
     private static float DEFAULT_TITLE_SIZE = 25f;
     private static float DEFAULT_SUBTITLE_SIZE = 20f;
+    private static float DEFAULT_TITLE_SUBTITLE_SPACE = 0f;
 
     private static int DEFAULT_STROKE_COLOR = Color.CYAN;
     private static int DEFAULT_BACKGROUND_COLOR = Color.WHITE;
@@ -46,6 +50,7 @@ public class CircleView extends View {
     private float mSubtitleSize = DEFAULT_SUBTITLE_SIZE;
     private float mStrokeWidth = DEFAULT_STROKE_WIDTH;
     private float mFillRadius = DEFAULT_FILL_RADIUS;
+    private float mTitleSubtitleSpace = DEFAULT_TITLE_SUBTITLE_SPACE;
 
     private boolean mShowTitle = DEFAULT_SHOW_TITLE;
     private boolean mShowSubtitle = DEFAULT_SHOW_SUBTITLE;
@@ -80,25 +85,27 @@ public class CircleView extends View {
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.CircleView, defStyle, 0);
 
-        if(a.hasValue(R.styleable.CircleView_titleText)){
-            mTitleText = a.getString(R.styleable.CircleView_titleText);
+        if(a.hasValue(R.styleable.CircleView_cv_titleText)){
+            mTitleText = a.getString(R.styleable.CircleView_cv_titleText);
         }
 
-        if(a.hasValue(R.styleable.CircleView_subtitleText)){
-            mSubtitleText = a.getString(R.styleable.CircleView_subtitleText);
+        if(a.hasValue(R.styleable.CircleView_cv_subtitleText)){
+            mSubtitleText = a.getString(R.styleable.CircleView_cv_subtitleText);
         }
 
-        mTitleColor = a.getColor(R.styleable.CircleView_titleColor,DEFAULT_TITLE_COLOR);
-        mSubtitleColor = a.getColor(R.styleable.CircleView_subtitleColor,DEFAULT_SUBTITLE_COLOR);
-        mBackgroundColor = a.getColor(R.styleable.CircleView_backgroundColorValue,DEFAULT_BACKGROUND_COLOR);
-        mStrokeColor = a.getColor(R.styleable.CircleView_strokeColorValue,DEFAULT_STROKE_COLOR);
-        mFillColor = a.getColor(R.styleable.CircleView_cvfillColor,DEFAULT_FILL_COLOR);
+        mTitleColor = a.getColor(R.styleable.CircleView_cv_titleColor,DEFAULT_TITLE_COLOR);
+        mSubtitleColor = a.getColor(R.styleable.CircleView_cv_subtitleColor,DEFAULT_SUBTITLE_COLOR);
+        mBackgroundColor = a.getColor(R.styleable.CircleView_cv_backgroundColorValue,DEFAULT_BACKGROUND_COLOR);
+        mStrokeColor = a.getColor(R.styleable.CircleView_cv_strokeColorValue,DEFAULT_STROKE_COLOR);
+        mFillColor = a.getColor(R.styleable.CircleView_cv_fillColor,DEFAULT_FILL_COLOR);
 
-        mTitleSize = a.getDimension(R.styleable.CircleView_titleSize,DEFAULT_TITLE_SIZE);
-        mSubtitleSize = a.getDimension(R.styleable.CircleView_subtitleSize,DEFAULT_SUBTITLE_SIZE);
+        mTitleSize = a.getDimension(R.styleable.CircleView_cv_titleSize,DEFAULT_TITLE_SIZE);
+        mSubtitleSize = a.getDimension(R.styleable.CircleView_cv_subtitleSize,DEFAULT_SUBTITLE_SIZE);
 
-        mStrokeWidth = a.getFloat(R.styleable.CircleView_strokeWidthSize,DEFAULT_STROKE_WIDTH);
-        mFillRadius = a.getFloat(R.styleable.CircleView_fillRadius,DEFAULT_FILL_RADIUS);
+        mStrokeWidth = a.getFloat(R.styleable.CircleView_cv_strokeWidthSize,DEFAULT_STROKE_WIDTH);
+        mFillRadius = a.getFloat(R.styleable.CircleView_cv_fillRadius,DEFAULT_FILL_RADIUS);
+
+        mTitleSubtitleSpace = a.getFloat(R.styleable.CircleView_cv_titleSubtitleSpace, DEFAULT_TITLE_SUBTITLE_SPACE);
 
         a.recycle();
 
@@ -185,7 +192,7 @@ public class CircleView extends View {
         canvas.drawArc(mInnerRectF, 0, 360, true, mBackgroundPaint);
 
         float radius = (mViewSize / 2) * mFillRadius;
-        //Log.d("Eric", "Radius " + radius + "mViewSize " + mViewSize + " mFillRadius" + mFillRadius + " strokeWidth" + mStrokePaint.getStrokeWidth());
+
         canvas.drawCircle(centerX, centerY, radius + 0.5f - mStrokePaint.getStrokeWidth(), mFillPaint);
 
         int xPos = (int) centerX;
@@ -203,7 +210,7 @@ public class CircleView extends View {
         if (mShowSubtitle) {
             canvas.drawText(mSubtitleText,
                     xPos,
-                    yPos + 20,
+                    yPos + 20 + mTitleSubtitleSpace,
                     mSubTextPaint);
         }
 
@@ -411,6 +418,23 @@ public class CircleView extends View {
      */
     public void setSubtitleColor(int subtitleColor) {
         mSubtitleColor = subtitleColor;
+        invalidateTextPaints();
+    }
+
+    /**
+     * Gets the title subtitle space attribute value.
+     * @return The title subtitle space attribute value.
+     */
+    public float getTitleSubtitleSpace() {
+        return mTitleSubtitleSpace;
+    }
+
+    /**
+     * Sets the view's title subtitle space attribute value.
+     * @param titleSubtitleSpace The space between title and subtitle attribute value to use.
+     */
+    public void setTitleSubtitleSpace(float titleSubtitleSpace) {
+        this.mTitleSubtitleSpace = titleSubtitleSpace;
         invalidateTextPaints();
     }
 }

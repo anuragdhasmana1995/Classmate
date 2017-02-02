@@ -54,43 +54,6 @@ public class BatchMarksFragment extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("views","onResume");
 
 
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.d("views","onAttach");
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.d("views","onDetach");
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.d("views","onViewCreated");
-
-
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        Log.d("views","onViewStateRestored");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d("views","onsave instance");
-    }
 }

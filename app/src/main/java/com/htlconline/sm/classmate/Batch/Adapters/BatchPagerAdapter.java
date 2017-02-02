@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.htlconline.sm.classmate.Batch.BatchFragments.BatchAttendenceFragment;
 import com.htlconline.sm.classmate.Batch.BatchFragments.BatchLessonPlanFragment;
 import com.htlconline.sm.classmate.Batch.BatchFragments.BatchMarksFragment;
-import com.htlconline.sm.classmate.Batch.BatchFragments.BatchStudentsFragment;
 import com.htlconline.sm.classmate.Batch.BatchFragments.BatchSummaryFragment;
 import com.htlconline.sm.classmate.Student.StudentListingFragment;
 import com.htlconline.sm.classmate.interfaces.FragmentChangeListener;
